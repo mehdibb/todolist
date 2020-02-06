@@ -72,24 +72,27 @@ const App = () => {
   const renderList = () => {
     return todos
       .filter(item => {
-        return filter === "all"
-          ? true
-          : filter === "done"
-          ? item.done === true
-          : item.done === false;
+        switch (filter) {
+          case "all":
+            return true;
+          case "done":
+            return item.done === true;
+          case "ongoing":
+            return item.done === false;
+          default:
+            break;
+        }
       })
-      .map(({ id, text, done }) => {
-        return (
-          <TodoItem
-            deleteTodo={e => deleteItem(e, id)}
-            toggleStatus={id => toggleTodoStatus(id)}
-            key={id}
-            id={id}
-            text={text}
-            done={done}
-          />
-        );
-      });
+      .map(({ id, text, done }) => (
+        <TodoItem
+          deleteTodo={e => deleteItem(e, id)}
+          toggleStatus={id => toggleTodoStatus(id)}
+          key={id}
+          id={id}
+          text={text}
+          done={done}
+        />
+      ));
   };
 
   return (
